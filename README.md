@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CaseMap.live
 
-## Getting Started
+New York court cases on a 3D globe. Search for a case, fly down to the courthouse, see what's been filed there.
 
-First, run the development server:
+Built with CesiumJS and Google Photorealistic 3D Tiles — so you're looking at actual buildings, not icons on a flat map.
+
+---
+
+## What it does
+
+- Plots every NY court (federal, state, housing, appellate, bankruptcy) as a marker on a 3D globe
+- Search by topic, party name, or docket number via CourtListener's API
+- Click a result → camera flies to the courthouse
+- NYC-specific data (HPD violations, OATH hearings, DOB complaints) from NYC Open Data
+- Coordinate readout shows live camera position as you navigate
+
+## Running locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
+pnpm copy-cesium   # copies CesiumJS static assets to public/
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+You need a `.env.local` file. Copy `.env.example` and fill in:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Key | Where to get it |
+|-----|----------------|
+| `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` | Google Cloud Console → Map Tiles API |
+| `NEXT_PUBLIC_CESIUM_ION_TOKEN` | ion.cesium.com/tokens |
+| `COURTLISTENER_API_TOKEN` | courtlistener.com → Profile |
+| `NYC_OPENDATA_APP_TOKEN` + `NYC_OPENDATA_APP_SECRET` | data.cityofnewyork.us → Developer Settings |
+| `NEXT_PUBLIC_SUPABASE_URL` + keys | supabase.com → Project Settings → API |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Stack
 
-## Learn More
+Next.js 16 · TypeScript · CesiumJS + Resium · Google Photorealistic 3D Tiles · Tailwind CSS v4 · Zustand · Supabase · pnpm
 
-To learn more about Next.js, take a look at the following resources:
+## Status
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Early development. Court markers and search are not yet built — right now it's a 3D globe centered on Manhattan. See `.claude/TODO.md` for the full roadmap.
