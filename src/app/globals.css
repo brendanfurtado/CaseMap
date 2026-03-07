@@ -287,21 +287,39 @@ body {
 }
 
 /* ============================================================
-   CESIUM VIEWER OVERRIDES — applied in Phase 1
+   CESIUM VIEWER OVERRIDES
    ============================================================ */
 
-/* Hide Cesium attribution/credit bar */
+/* Cesium credit bar — must remain visible for Google Maps attribution.
+   Google Maps Platform ToS requires attribution to be readable at all times.
+   We style it to be minimal rather than hiding it. */
 .cesium-viewer-bottom {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: none !important;
+  border-top: 1px solid #e2e8f0 !important;
+}
+
+.cesium-credit-logoContainer,
+.cesium-credit-expand-link {
   display: none !important;
 }
 
-/* Remove canvas focus ring — navigation handles its own focus state */
+.cesium-credit-textContainer {
+  font-family: ui-monospace, monospace !important;
+  font-size: 9px !important;
+  color: #94a3b8 !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* Remove canvas focus ring — mouse/keyboard navigation handles its own feedback */
 canvas:focus-visible {
   outline: none;
 }
 
-/* Phase 1: Uncomment after installing cesium package */
-/* @import "cesium/Build/Cesium/Widgets/widgets.css"; */
+/* Cesium toolbar — hidden since we build our own controls */
+.cesium-viewer-toolbar {
+  display: none !important;
+}
 
 /* Phase 0: tailwindcss-animate plugin — uncomment after: pnpm add -D tailwindcss-animate */
 /* @plugin "tailwindcss-animate"; */

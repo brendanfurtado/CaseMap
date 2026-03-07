@@ -40,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
-      <body className={`${jetbrainsMono.variable} min-h-screen bg-white text-slate-900 antialiased`}>
+      <body suppressHydrationWarning className={`${jetbrainsMono.variable} min-h-screen bg-white text-slate-900 antialiased`}>
         {children}
       </body>
     </html>
