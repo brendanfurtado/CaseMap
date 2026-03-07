@@ -108,15 +108,6 @@ export default function CourtMarkers() {
         ) {
           const court = picked.id as Court;
           setSelectedCourt(court);
-          flyToLocation(
-            viewer,
-            {
-              latitude: court.latitude,
-              longitude: court.longitude,
-              altitude: court.altitude_flyto,
-            },
-            2.0
-          );
         } else {
           // Click on empty space dismisses the popup
           setSelectedCourt(null);
@@ -200,6 +191,25 @@ export default function CourtMarkers() {
               className="mt-3 h-0.5 rounded-full"
               style={{ backgroundColor: selectedCourt.marker_color }}
             />
+
+            {/* Fly-to action */}
+            <button
+              onClick={() => {
+                if (!viewer) return;
+                flyToLocation(
+                  viewer,
+                  {
+                    latitude: selectedCourt.latitude,
+                    longitude: selectedCourt.longitude,
+                    altitude: selectedCourt.altitude_flyto,
+                  },
+                  2.0
+                );
+              }}
+              className="mt-3 w-full hud-panel px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:border-slate-400 transition-colors text-center cursor-pointer"
+            >
+              Zoom to Location
+            </button>
           </div>
         </div>
       )}
