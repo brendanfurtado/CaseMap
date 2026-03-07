@@ -2,6 +2,29 @@
 
 ---
 
+## 2026-03-06 — Phase 1: 3D Globe Foundation
+
+### What was built
+- `scripts/copy-cesium-assets.mjs` — copies CesiumJS static files (Workers, Assets, ThirdParty, Widgets) to `public/cesium/`; added as `postinstall` script
+- `src/lib/cesium-config.ts` — activated: `Ion.defaultAccessToken` set, `buildModuleUrl.setBaseUrl('/cesium/')` configured
+- `src/lib/cesium-utils.ts` — `flyToLocation()`, `flyToNewYorkState()`, `getCameraCoordinates()` utilities
+- `src/components/globe/GlobeViewer.tsx` — full CesiumJS viewer: Google Photorealistic 3D Tiles, initial camera over Manhattan at 1,500m/45° tilt, live coordinate readout HUD, Reset View button
+- `src/components/globe/GlobeContainer.tsx` — lazy-load wrapper (`next/dynamic`, `ssr: false`, loading skeleton)
+- `src/app/page.tsx` — full-screen globe replacing the Phase 0 landing page; branding + phase badge overlays
+- `src/app/globals.css` — Cesium credit bar styled (kept visible for Google attribution ToS); toolbar hidden
+- `src/app/layout.tsx` — added `suppressHydrationWarning` on `<body>` (browser extension injects `cz-shortcut-listen`)
+- `README.md` — replaced create-next-app boilerplate with real project description
+
+### Bugs fixed
+- `ssr: false` not allowed in Server Component → added `'use client'` to GlobeContainer
+- Browser extension hydration mismatch → `suppressHydrationWarning` on body
+- Cesium 404 errors → `pnpm copy-cesium` copies assets to `public/cesium/`
+
+### Current state
+Globe is live at localhost:3000. Google Photorealistic 3D Tiles loading. Camera starts over midtown Manhattan at 1,500m with 45° tilt. Live coordinate HUD and Reset View button working.
+
+---
+
 ## 2026-03-06 — Phase 0: Project Scaffolding
 
 **Session goal:** Scaffold Phase 0 on top of the base Next.js project created by `pnpm create next-app@latest`.
@@ -66,11 +89,9 @@
 - **next.config.ts:** SRS references `next.config.mjs`; project uses TypeScript config format
 
 ### Next Steps (remaining Phase 0)
-- [ ] Install dependencies: `pnpm add zustand cesium resium @supabase/ssr @supabase/supabase-js clsx tailwind-merge`
-- [ ] Install dev dependencies: `pnpm add -D prettier eslint-config-prettier tailwindcss-animate husky @types/node`
-- [ ] Set up shadcn/ui: `pnpm dlx shadcn@latest init`
+- [x] Install dependencies (cesium, resium, zustand, supabase, clsx, tailwind-merge, etc.)
+- [x] Obtain real API keys (Google Maps, Cesium Ion, CourtListener, NYC Open Data, Supabase)
+- [x] Fill in `.env.local` with real keys
 - [ ] Set up Husky pre-commit hooks
-- [ ] Obtain real API keys (Google Maps, Cesium Ion, CourtListener, NYC Open Data, Supabase)
-- [ ] Fill in `.env.local` with real keys
 - [ ] Create GitHub repo and push
 - [ ] Connect Vercel and verify CI/CD pipeline

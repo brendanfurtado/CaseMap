@@ -9,55 +9,43 @@ Reference: SRS Section 12 (Development Roadmap) + Section 15 (Definition of Done
 
 - [x] **0.1** Register `casemap.live` domain and configure DNS for Vercel *(manual)*
 - [x] **0.2** Initialize Next.js project with TypeScript, Tailwind, pnpm
-- [ ] **0.3** Install and configure `resium` (CesiumJS React wrapper) and `cesium` packages
+- [x] **0.3** Install and configure `resium` (CesiumJS React wrapper) and `cesium` packages
 - [ ] **0.4** Set up Supabase project (database + auth)
-- [ ] **0.5** Obtain Google Cloud API key and enable Map Tiles API
-- [ ] **0.6** Obtain CourtListener API token (register at courtlistener.com)
-- [ ] **0.6b** Obtain NYC Open Data app token (register at data.cityofnewyork.us)
-- [x] **0.7** Create `.env.local` with all 7 env vars (placeholder values)
-- [ ] **0.7b** Fill in `.env.local` with real API keys
-- [x] **0.8a** Configure ESLint (flat config rules: no-unused-vars, no-console, prefer-const)
-- [x] **0.8b** Configure Prettier (`.prettierrc`, `.prettierignore`)
-- [ ] **0.8c** Set up Husky pre-commit hooks (`pnpm add -D husky && pnpm dlx husky init`)
-- [ ] **0.9** Create GitHub repo (`casemap-live`) with README, .gitignore, MIT license
-- [ ] **0.10** Deploy blank Next.js app to Vercel on `casemap.live`, confirm CI/CD pipeline
+- [x] **0.5** Obtain Google Cloud API key and enable Map Tiles API
+- [x] **0.6** Obtain CourtListener API token
+- [x] **0.6b** Obtain NYC Open Data API key + secret
+- [x] **0.7** Create `.env.local` with all env vars (real keys)
+- [x] **0.8a** Configure ESLint
+- [x] **0.8b** Configure Prettier
+- [ ] **0.8c** Set up Husky pre-commit hooks
+- [ ] **0.9** Create GitHub repo with README, .gitignore, MIT license
+- [ ] **0.10** Deploy to Vercel on `casemap.live`, confirm CI/CD pipeline
 
-### Phase 0 Scaffolding (completed this session)
+### Phase 0 Scaffolding
 - [x] Design system: globals.css — Tailwind v4 @theme tokens, component utilities, CRT overlay
-- [x] `next.config.ts` — webpack fallbacks + image remotePatterns
-- [x] `src/app/layout.tsx` — JetBrains Mono font, full metadata
-- [x] `src/app/page.tsx` — design system preview landing page
+- [x] `next.config.ts` — webpack fallbacks + image remotePatterns + turbopack config
+- [x] `src/app/layout.tsx` — JetBrains Mono font, full metadata, suppressHydrationWarning
 - [x] `src/types/index.ts` — all shared TypeScript types
 - [x] `src/lib/utils.ts` — cn() utility
-- [x] `src/lib/cesium-config.ts` — Cesium Ion init stub
-- [x] `src/lib/supabase/client.ts` — browser client stub
-- [x] `src/lib/supabase/server.ts` — server client stub
-- [x] `src/stores/useCourtsStore.ts` — courts store stub
-- [x] `src/stores/useSearchStore.ts` — search store stub
-- [x] Directory structure created (components, hooks, data, api routes, public/markers, scripts)
-- [x] `.env.example` — documented all env vars
-
-### Remaining Phase 0 installs
-- [ ] `pnpm add zustand cesium resium @supabase/ssr @supabase/supabase-js clsx tailwind-merge`
-- [ ] `pnpm add -D prettier eslint-config-prettier tailwindcss-animate husky lint-staged`
-- [ ] `pnpm dlx shadcn@latest init` — set up shadcn/ui component library
+- [x] `src/lib/supabase/client.ts` + `server.ts` — stubs (activate in Phase 2)
+- [x] `src/stores/useCourtsStore.ts` + `useSearchStore.ts` — stubs (activate in Phase 2/4)
+- [x] Directory structure, `.env.example`, README
 
 ---
 
 ## Phase 1: 3D Globe Foundation
 
-- [ ] **1.1** Create `<GlobeContainer>` component with CesiumJS Viewer using `resium`
-- [ ] **1.2** Load Google Photorealistic 3D Tiles as the base layer
-- [ ] **1.3** Set initial camera: lat 42.9, lng -75.5, alt 400km (New York State overview)
-- [ ] **1.4** Implement `flyToLocation(lat, lng, altitude, duration)` utility function
-- [ ] **1.5** Test fly-to: button → camera flies to Times Square at 200m with 3D buildings
-- [ ] **1.6** Add "Reset View" button that flies back to NY State overview
-- [ ] **1.7** Handle CesiumJS loading states (skeleton/spinner while tiles stream)
-- [ ] **1.8** Lazy-load CesiumJS via `next/dynamic` with `ssr: false`
-- [ ] **1.9** Test performance: confirm 60fps on target hardware
-- [ ] **1.10** Configure `RequestScheduler.requestsByServer` for faster Google tile loading
-- [ ] **1.11** Uncomment Cesium widget CSS import in globals.css
-- [ ] **1.12** Uncomment `Ion.defaultAccessToken` in cesium-config.ts
+- [x] **1.1** Create `<GlobeContainer>` + `<GlobeViewer>` components with CesiumJS + resium
+- [x] **1.2** Load Google Photorealistic 3D Tiles as the base layer
+- [x] **1.3** Initial camera over Manhattan at 1,500m / 45° tilt
+- [x] **1.4** `flyToLocation()` + `flyToNewYorkState()` utility functions
+- [x] **1.5** Reset View button (flies to NY State overview at 400km)
+- [x] **1.6** Loading skeleton while CesiumJS initializes
+- [x] **1.7** Lazy-load via `next/dynamic` with `ssr: false`
+- [x] **1.8** Live coordinate readout HUD (lat/lng/alt/heading)
+- [x] **1.9** `scripts/copy-cesium-assets.mjs` + postinstall hook
+- [ ] **1.10** Configure `RequestScheduler.requestsByServer` for faster tile loading
+- [ ] **1.11** Keyboard shortcut: `R` to reset view
 - [ ] **1.13** Add coordinate readout HUD (live lat/lng/alt/heading from camera)
 - [ ] **1.14** Add CRT overlay toggle button
 

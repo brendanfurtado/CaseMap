@@ -6,11 +6,11 @@
 import * as Cesium from "cesium";
 import type { CameraDestination } from "@/types";
 
-/** Initial New York State overview position. */
-export const NY_STATE_OVERVIEW: CameraDestination = {
-  latitude: 42.9,
-  longitude: -75.5,
-  altitude: 400_000,
+/** NYC boroughs overview — default reset target. */
+export const NYC_OVERVIEW: CameraDestination = {
+  latitude: 40.6392,
+  longitude: -73.9865,
+  altitude: 10_757,
 };
 
 /**
@@ -37,14 +37,27 @@ export function flyToLocation(
 }
 
 /**
- * Resets the camera to the New York State overview.
- * Altitude: 400km — shows the full state in one view.
+ * Resets the camera to the NYC boroughs overview —
+ * south-of-Manhattan angled view showing all five boroughs.
  *
  * @param viewer   - The active Cesium.Viewer instance.
  * @param duration - Flight duration in seconds.
  */
 export function flyToNewYorkState(viewer: Cesium.Viewer, duration = 2.0): void {
-  flyToLocation(viewer, NY_STATE_OVERVIEW, duration);
+  viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(
+      NYC_OVERVIEW.longitude,
+      NYC_OVERVIEW.latitude,
+      NYC_OVERVIEW.altitude
+    ),
+    orientation: {
+      heading: Cesium.Math.toRadians(359),
+      pitch: Cesium.Math.toRadians(-35),
+      roll: 0,
+    },
+    duration,
+    easingFunction: Cesium.EasingFunction.CUBIC_IN_OUT,
+  });
 }
 
 /**

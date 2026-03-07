@@ -20,6 +20,7 @@ import "cesium/Build/Cesium/Widgets/widgets.css";
 
 import { initCesium } from "@/lib/cesium-config";
 import { flyToNewYorkState, getCameraCoordinates } from "@/lib/cesium-utils";
+import CourtMarkers from "./CourtMarkers";
 
 // Initialize Cesium (base URL + Ion token) at module load time.
 // Safe: this module is only evaluated in the browser (lazy-loaded with ssr: false).
@@ -61,12 +62,12 @@ function GooglePhotorealistic3DTiles() {
         tileset = ts;
         viewer.scene.primitives.add(tileset);
 
-        // Instant snap to Manhattan on first load — low enough to see 3D buildings
+        // Initial view: south of Manhattan looking north, full island visible
         viewer.camera.flyTo({
-          destination: Cesium.Cartesian3.fromDegrees(-73.9857, 40.758, 1_500),
+          destination: Cesium.Cartesian3.fromDegrees(-73.9865, 40.6392, 10_757),
           orientation: {
-            heading: Cesium.Math.toRadians(0),
-            pitch: Cesium.Math.toRadians(-45),
+            heading: Cesium.Math.toRadians(359),
+            pitch: Cesium.Math.toRadians(-35),
             roll: 0,
           },
           duration: 0,
@@ -189,6 +190,9 @@ export default function GlobeViewer() {
     >
       {/* Tile loader — no DOM output */}
       <GooglePhotorealistic3DTiles />
+
+      {/* Court markers — fetches from /api/courts, renders as colored points */}
+      <CourtMarkers />
 
       {/* HUD overlays — rendered inside Viewer's container, above the canvas */}
       <CoordinateReadout />
