@@ -2,6 +2,34 @@
 
 ---
 
+## 2026-03-12 — Phase 2: Court Markers on the Globe
+
+### What was built
+- `supabase/migrations/001_create_courts.sql` — creates `courts` table + seeds ~45 NY courts across all court types (federal district, federal appellate, federal bankruptcy, state appellate, NY Supreme Court boroughs + upstate, NYC Housing/Civil/Criminal/Family, Surrogate's, Court of Claims). Uses `on conflict (cl_court_id) do nothing`.
+- `src/lib/supabase/server.ts` — activated with real `createClient` from `@supabase/supabase-js`; service role key; env vars validated at call time
+- `src/app/api/courts/route.ts` — `GET /api/courts`; queries Supabase `courts` table ordered by name; `revalidate = 86400` + `Cache-Control: s-maxage=86400`
+- `src/stores/useCourtsStore.ts` — activated real Zustand v5 store; `fetchCourts()` no-ops if already loaded; `getCourtById()` lookup
+- `src/components/globe/CourtMarkers.tsx` — new component (inside `<Viewer>`):
+  - `PinBuilder.fromColor()` generates teardrop billboard pins; one canvas per unique color (6 total)
+  - `BillboardCollection` replaces `PointPrimitiveCollection`
+  - `verticalOrigin: BOTTOM` anchors pin tip to coordinate; `disableDepthTestDistance: Infinity` keeps pins above terrain/buildings
+  - Click opens HUD popup — **does not move camera**
+  - Popup shows: court type label, full name, short name, address, borough, CL ID, color accent bar, "Zoom to Location" button
+  - Clicking empty space dismisses popup
+- `GlobeViewer.tsx` — added `<CourtMarkers />` import and render inside `<Viewer>` tree
+
+### Camera & navigation changes
+- Initial view updated to match NYC boroughs overview: `lat 40.6392, lng -73.9865, alt 10,757m, heading 359°, pitch -35°` (south of Manhattan looking north, all boroughs visible)
+- Reset View now flies to same NYC overview with matching heading/pitch (no longer NY State at 400km)
+
+### Security
+- Enabled RLS on `public.courts` + added `courts_public_read` policy (`select` for all) — clears Supabase Security Advisor error
+
+### Phase badge updated
+- `page.tsx` — badge updated to "Phase 2 · Court Markers"
+
+---
+
 ## 2026-03-06 — Phase 1: 3D Globe Foundation
 
 ### What was built

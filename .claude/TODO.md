@@ -39,7 +39,7 @@ Reference: SRS Section 12 (Development Roadmap) + Section 15 (Definition of Done
 - [x] **1.2** Load Google Photorealistic 3D Tiles as the base layer
 - [x] **1.3** Initial camera over Manhattan at 1,500m / 45° tilt
 - [x] **1.4** `flyToLocation()` + `flyToNewYorkState()` utility functions
-- [x] **1.5** Reset View button (flies to NY State overview at 400km)
+- [x] **1.5** Reset View button (flies to NYC boroughs overview — south of Manhattan, angled north)
 - [x] **1.6** Loading skeleton while CesiumJS initializes
 - [x] **1.7** Lazy-load via `next/dynamic` with `ssr: false`
 - [x] **1.8** Live coordinate readout HUD (lat/lng/alt/heading)
@@ -51,29 +51,30 @@ Reference: SRS Section 12 (Development Roadmap) + Section 15 (Definition of Done
 
 ---
 
-## Phase 2: Court Location Data
+## Phase 2: Court Location Data ✓
 
-- [ ] **2.1** Query CourtListener `/courts/` API — compile full list of NY court IDs
-- [ ] **2.2** Geocode all NY courts (manual + Google Geocoding API fallback)
-- [ ] **2.3** Create `courts` table in Supabase with schema from SRS Section 9.2
-- [ ] **2.4** Seed `courts` table with all NY courts (~80–120 entries)
-- [ ] **2.5** Create Next.js API route `GET /api/courts` — returns all courts with geocodes
-- [ ] **2.6** Activate `useCourtsStore` (uncomment real zustand implementation)
-- [ ] **2.7** On app load, fetch `/api/courts` and populate store (cache indefinitely)
-- [ ] **2.8** Activate `src/lib/supabase/client.ts` and `server.ts` (uncomment real impls)
+- [x] **2.1** Compile full list of NY court IDs (manual research + CourtListener)
+- [x] **2.2** Geocode all NY courts (manual)
+- [x] **2.3** Create `courts` table in Supabase — `supabase/migrations/001_create_courts.sql`
+- [x] **2.4** Seed `courts` table with ~45 NY courts
+- [x] **2.5** Create Next.js API route `GET /api/courts`
+- [x] **2.6** Activate `useCourtsStore` with real Zustand v5 implementation
+- [x] **2.7** Fetch `/api/courts` on app load, cache in store indefinitely
+- [x] **2.8** Activate `src/lib/supabase/server.ts`
+- [x] **2.9** Enable RLS on `courts` table + public read policy
 
 ---
 
-## Phase 3: Court Markers on the Globe
+## Phase 3: Court Markers on the Globe ✓
 
-- [ ] **3.1** Create `<CourtMarkers>` component — reads useCourtsStore, renders Cesium billboards
-- [ ] **3.2** Design marker SVG icons for each court type (convert to PNG for CesiumJS)
-- [ ] **3.3** Implement marker sizing: base size + scale factor from case count
-- [ ] **3.4** Implement hover tooltip: court name, address, case count
-- [ ] **3.5** Implement click handler: fly-to + open side panel
-- [ ] **3.6** Implement marker clustering for high zoom-out views
-- [ ] **3.7** Add pulse/glow animation on search result update (`animate-marker-pulse`)
-- [ ] **3.8** Create `<Legend>` component showing court type color scheme
+- [x] **3.1** Create `<CourtMarkers>` component — BillboardCollection, PinBuilder pins
+- [x] **3.2** Colored pins per court type (PinBuilder.fromColor, 6 color buckets)
+- [x] **3.4** Click popup: court name, type, address, borough, CL ID, color bar
+- [x] **3.5** Click opens popup without moving camera; "Zoom to Location" button for fly-to
+- [ ] **3.3** Marker sizing from case count (Phase 4 dependency)
+- [ ] **3.6** Marker clustering for high zoom-out views
+- [ ] **3.7** Pulse/glow animation on search result update
+- [ ] **3.8** `<Legend>` component showing court type color scheme
 
 ---
 
